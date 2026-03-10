@@ -3,5 +3,7 @@ scikit-learn
 yfinance
 joblib
 matplotlib
+plotly
 streamlit>=1.28.0
 altair>=5.0.0
+numpy
