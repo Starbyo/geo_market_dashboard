@@ -371,12 +371,17 @@ PBASE = dict(
     yaxis=dict(showgrid=True, gridcolor="#1a2840", color="#4a6080", zeroline=False),
 )
 
+def hex_to_rgba(hex_color, alpha=0.07):
+    h = hex_color.lstrip("#")
+    r, g, b = int(h[0:2],16), int(h[2:4],16), int(h[4:6],16)
+    return f"rgba({r},{g},{b},{alpha})"
+
 def sparkline(history, color):
     fig = go.Figure(go.Scatter(
         y=history, mode="lines",
         line=dict(color=color, width=1.5),
         fill="tozeroy",
-        fillcolor=f"{color}18",
+        fillcolor=hex_to_rgba(color),
         hoverinfo="skip",
     ))
     fig.update_layout(
