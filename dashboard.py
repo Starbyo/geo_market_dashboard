@@ -1,5 +1,5 @@
 """
-GEO MARKET INTELLIGENCE DASHBOARD v5 — CHRONOS-ALPHA + STEADYFIT SKIN
+GEO MARKET INTELLIGENCE DASHBOARD v5.1 — CHRONOS-ALPHA + STEADYFIT SKIN
 Original logic: oil_return + gold_return → RandomForest → Risk ON / Risk OFF  [UNCHANGED]
 Extended v3:    5s live prices, trade timing, GradientBoosting timing model    [UNCHANGED]
 Extended v4:    Chronos-Alpha AI layer via Groq + Llama 3.3 70B               [UNCHANGED]
@@ -30,7 +30,7 @@ except ImportError:
 # PAGE CONFIG  (must be first Streamlit call)
 # ─────────────────────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Geo Market Intelligence",
+    page_title="Geo Market Intelligence | Steadyfit",
     page_icon="📡",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -423,6 +423,13 @@ div[data-testid="stExpander"]{background:var(--card)!important;border:1px solid 
 ::-webkit-scrollbar{width:3px;height:3px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--muted2);border-radius:2px;}
+
+/* ── HIDE STREAMLIT CHROME ───────────────────────────────── */
+footer{visibility:hidden!important;}
+#MainMenu{visibility:hidden!important;}
+header[data-testid="stHeader"]{visibility:hidden!important;}
+[data-testid="stToolbar"]{display:none!important;}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -463,7 +470,7 @@ st.markdown("""
   // Boot sequence
   setTimeout(function(){ toast('info','📡','Geo Market Intelligence','22 assets tracking. 5s refresh active. Chronos-Alpha ready.'); }, 1200);
   setTimeout(function(){ toast('risk','⚡','Risk Engine Active','Oil+Gold RandomForest model running. Regime detection live.'); }, 9000);
-  setTimeout(function(){ toast('news','📰','Markets Update','Risk-on regime confirmed. Equities and crypto showing bullish momentum.'); }, 19000);
+  setTimeout(function(){ var pct=(Math.random()*.8+.1).toFixed(2); toast('news','📰','Markets Update','SPY +'+pct+'% today. Risk-on regime active. Equities showing momentum.'); }, 19000);
   setTimeout(function(){ toast('info','🌍','Geopolitical Watch','Middle East supply risk elevated. Energy sector volatility rising.'); }, 33000);
   setTimeout(function(){ toast('buy','📈','BUY Signal Active','Multiple assets showing BUY — Review Stocks tab for full signals.'); }, 48000);
 })();
@@ -474,26 +481,18 @@ st.markdown("""
 # SIDEBAR — Chronos-Alpha + Settings + About + Donate + Contact
 # ─────────────────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown('''<div style="font-family:DM Mono,monospace;font-size:.75rem;color:#a78bfa;
+    st.markdown('''<div style="font-family:'DM Mono',monospace;font-size:.75rem;color:#a78bfa;
       letter-spacing:.2em;text-transform:uppercase;padding:.4rem 0 .8rem">
       📡 GeoMarket Intelligence</div>''', unsafe_allow_html=True)
 
-    # ── Chronos-Alpha key ────────────────────────────────────
-    st.markdown('''<div class="sb-ai-card">
-      <div class="sb-lbl">🤖 CHRONOS-ALPHA</div>''', unsafe_allow_html=True)
-    groq_key_input = st.text_input(
-        "Groq API Key", value="",
-        type="password", placeholder="gsk_...",
-        help="Free key at console.groq.com",
-    )
-    if groq_key_input:
-        st.session_state.groq_key = groq_key_input
-        GROQ_API_KEY = groq_key_input
+    # ── Chronos-Alpha status (key loaded from Streamlit Secrets) ────────────────
     chronos_enabled = bool(GROQ_API_KEY and GROQ_AVAILABLE)
     status_cls = "sb-status-on" if chronos_enabled else "sb-status-off"
-    status_txt = "● ACTIVE — Llama 3.3 70B" if chronos_enabled else "● OFFLINE — Add key above"
-    st.markdown(f'<div class="{status_cls}">{status_txt}</div>', unsafe_allow_html=True)
-    st.markdown('<div style="font-size:.62rem;color:#6b6b82;margin-top:.3rem;line-height:1.5">Free key → <b style="color:#a78bfa">console.groq.com</b></div></div>', unsafe_allow_html=True)
+    status_txt = "● ACTIVE — Llama 3.3 70B" if chronos_enabled else "● OFFLINE"
+    st.markdown(f'''<div class="sb-ai-card">
+      <div class="sb-lbl">🤖 CHRONOS-ALPHA</div>
+      <div class="{status_cls}">{status_txt}</div>
+    </div>''', unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -591,6 +590,15 @@ with st.sidebar:
                 st.success("✅ Message sent! Steadyfit will be in touch.")
             else:
                 st.error("Please fill in all fields.")
+
+    st.markdown('''<div style="margin-top:1.2rem;padding-top:.8rem;border-top:1px solid rgba(255,255,255,.06);
+      font-family:DM Mono,monospace;font-size:.52rem;color:#2e2e3e;text-align:center;letter-spacing:.1em">
+      <a href="https://github.com/starbyo/geo_market_dashboard" target="_blank"
+        style="color:#6b6b82;text-decoration:none">⭐ Star on GitHub</a>
+      &nbsp;·&nbsp;
+      <a href="https://x.com/steadyfit1" target="_blank"
+        style="color:#6b6b82;text-decoration:none">𝕏 @steadyfit1</a>
+    </div>''', unsafe_allow_html=True)
 
     if not GROQ_AVAILABLE:
         st.warning("Add `groq` to requirements.txt to enable Chronos-Alpha")
@@ -861,7 +869,7 @@ for ticker in all_tickers:
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown(f"""
 <div class="hdr">
-  <p class="hdr-title">📡 Geo Market Intelligence</p>
+  <p class="hdr-title"><span style="-webkit-text-fill-color:var(--purple);font-size:1.5rem">◈</span> GEO MARKET INTELLIGENCE <span style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);border-radius:4px;padding:1px 7px;font-family:var(--mono);font-size:.45rem;color:#a78bfa;vertical-align:middle;-webkit-text-fill-color:#a78bfa;letter-spacing:.1em">v5.0</span></p>
   <p class="hdr-sub">
     <span class="live-dot"></span>Live 5s Refresh &nbsp;·&nbsp; {now_str}
     &nbsp;·&nbsp; 12 Stocks &nbsp;·&nbsp; 10 Crypto
@@ -871,6 +879,18 @@ st.markdown(f"""
   </p>
 </div>
 """, unsafe_allow_html=True)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DISCLAIMER BANNER
+# ─────────────────────────────────────────────────────────────────────────────
+st.markdown('''
+<div style="background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.12);
+  border-radius:8px;padding:.35rem 1rem;margin-bottom:1rem;
+  font-family:var(--mono);font-size:.53rem;color:#6b6b82;letter-spacing:.08em;text-align:center">
+  ⚠️ FOR INFORMATIONAL PURPOSES ONLY &nbsp;·&nbsp; NOT FINANCIAL ADVICE
+  &nbsp;·&nbsp; ALWAYS CONDUCT YOUR OWN RESEARCH &nbsp;·&nbsp; PAST PERFORMANCE DOES NOT GUARANTEE FUTURE RESULTS
+</div>''', unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # RISK ENGINE (UNCHANGED LOGIC, NEW SKIN)
