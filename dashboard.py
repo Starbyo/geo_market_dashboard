@@ -482,7 +482,7 @@ with st.sidebar:
     st.markdown('''<div class="sb-ai-card">
       <div class="sb-lbl">🤖 CHRONOS-ALPHA</div>''', unsafe_allow_html=True)
     groq_key_input = st.text_input(
-        "Groq API Key", value=st.session_state.groq_key,
+        "Groq API Key", value="",
         type="password", placeholder="gsk_...",
         help="Free key at console.groq.com",
     )
