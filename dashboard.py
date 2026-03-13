@@ -33,7 +33,7 @@ st.set_page_config(
     page_title="Geo Market Intelligence | Steadyfit",
     page_icon="📡",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
 )
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -477,11 +477,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────────────────────────────────────
-# CHRONOS-ALPHA ENABLED FLAG (defined here so it's always in global scope)
-# ─────────────────────────────────────────────────────────────────────────────
-chronos_enabled = bool(GROQ_API_KEY and GROQ_AVAILABLE)
-
-# ─────────────────────────────────────────────────────────────────────────────
 # SIDEBAR — Chronos-Alpha + Settings + About + Donate + Contact
 # ─────────────────────────────────────────────────────────────────────────────
 with st.sidebar:
@@ -489,7 +484,8 @@ with st.sidebar:
       letter-spacing:.2em;text-transform:uppercase;padding:.4rem 0 .8rem">
       📡 GeoMarket Intelligence</div>''', unsafe_allow_html=True)
 
-    # ── Chronos-Alpha status ──────────────────────────────────────────────────
+    # ── Chronos-Alpha status (key loaded silently from Streamlit Secrets) ──────
+    chronos_enabled = bool(GROQ_API_KEY and GROQ_AVAILABLE)
     status_cls = "sb-status-on" if chronos_enabled else "sb-status-off"
     status_txt = "● ACTIVE — Llama 3.3 70B" if chronos_enabled else "● OFFLINE"
     st.markdown(f'''<div class="sb-ai-card">
