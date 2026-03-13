@@ -423,7 +423,6 @@ div[data-testid="stExpander"]{background:var(--card)!important;border:1px solid 
 ::-webkit-scrollbar{width:3px;height:3px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--muted2);border-radius:2px;}
-
 /* ── HIDE STREAMLIT CHROME ───────────────────────────────── */
 footer{visibility:hidden!important;}
 #MainMenu{visibility:hidden!important;}
@@ -485,7 +484,7 @@ with st.sidebar:
       letter-spacing:.2em;text-transform:uppercase;padding:.4rem 0 .8rem">
       📡 GeoMarket Intelligence</div>''', unsafe_allow_html=True)
 
-    # ── Chronos-Alpha status (key loaded from Streamlit Secrets) ────────────────
+    # ── Chronos-Alpha status (key loaded silently from Streamlit Secrets) ──────
     chronos_enabled = bool(GROQ_API_KEY and GROQ_AVAILABLE)
     status_cls = "sb-status-on" if chronos_enabled else "sb-status-off"
     status_txt = "● ACTIVE — Llama 3.3 70B" if chronos_enabled else "● OFFLINE"
@@ -592,7 +591,7 @@ with st.sidebar:
                 st.error("Please fill in all fields.")
 
     st.markdown('''<div style="margin-top:1.2rem;padding-top:.8rem;border-top:1px solid rgba(255,255,255,.06);
-      font-family:DM Mono,monospace;font-size:.52rem;color:#2e2e3e;text-align:center;letter-spacing:.1em">
+      font-family:DM Mono,monospace;font-size:.52rem;text-align:center;letter-spacing:.1em">
       <a href="https://github.com/starbyo/geo_market_dashboard" target="_blank"
         style="color:#6b6b82;text-decoration:none">⭐ Star on GitHub</a>
       &nbsp;·&nbsp;
@@ -869,7 +868,7 @@ for ticker in all_tickers:
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown(f"""
 <div class="hdr">
-  <p class="hdr-title"><span style="-webkit-text-fill-color:var(--purple);font-size:1.5rem">◈</span> GEO MARKET INTELLIGENCE <span style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);border-radius:4px;padding:1px 7px;font-family:var(--mono);font-size:.45rem;color:#a78bfa;vertical-align:middle;-webkit-text-fill-color:#a78bfa;letter-spacing:.1em">v5.0</span></p>
+  <p class="hdr-title"><span style="-webkit-text-fill-color:var(--purple);font-size:1.5rem">◈</span> GEO MARKET INTELLIGENCE <span style="background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);border-radius:4px;padding:1px 7px;font-family:var(--mono);font-size:.45rem;color:#a78bfa;vertical-align:middle;-webkit-text-fill-color:#a78bfa;letter-spacing:.1em">v5.1</span></p>
   <p class="hdr-sub">
     <span class="live-dot"></span>Live 5s Refresh &nbsp;·&nbsp; {now_str}
     &nbsp;·&nbsp; 12 Stocks &nbsp;·&nbsp; 10 Crypto
