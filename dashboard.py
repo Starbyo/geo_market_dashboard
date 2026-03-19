@@ -26,7 +26,7 @@ try:
 except ImportError:
     GROQ_AVAILABLE = False
 
-# ── fmt_price defined early — used in ticker bar before render functions
+# ── fmt_price defined early — used in ticker bar
 def fmt_price(p):
     return f"${p:,.0f}" if p>500 else (f"${p:,.2f}" if p>1 else f"${p:.5f}")
 
@@ -1021,6 +1021,11 @@ def compute_technical_signal(history, chg_pct, wk_chg):
     SELL threshold: score <= 38
     HOLD: everything in between
     """
+    try:
+        chg_pct = float(chg_pct) if chg_pct is not None else 0.0
+        wk_chg  = float(wk_chg)  if wk_chg  is not None else 0.0
+    except (TypeError, ValueError):
+        chg_pct, wk_chg = 0.0, 0.0
     if len(history) < 5:
         return "HOLD", 50, "Insufficient data"
 
@@ -1425,6 +1430,7 @@ if chronos_enabled:
 # ─────────────────────────────────────────────────────────────────────────────
 tab1,tab2,tab3,tab4,tab5=st.tabs(["📈  STOCKS","₿   CRYPTO","📰  NEWS + TRADE SIGNAL","📊  COMPARE","🤖  CHRONOS-ALPHA"])
 
+# fmt_price defined at top of file
 
 def render_asset_grid(asset_dict, prices):
     cols=st.columns(4)
